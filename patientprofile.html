@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}patientprofile{% endblock %}
+
+{% block content %}```html
+<hr>
+<section>
+
+        <h2>Patient Profile</h2>
+
+        <form>
+
+            <label>Full Name:</label>
+            <input type="text" name="fullName">
+
+            <br><br>
+
+            <label>Phone Number:</label>
+            <input type="tel" name="phone">
+
+            <br><br>
+
+            <label>Email:</label>
+            <input type="email" name="email">
+
+            <br><br>
+
+            <label>Date of Birth:</label>
+            <input type="date" name="dateOfBirth">
+
+            <br><br>
+
+            <label>Address:</label>
+            <textarea name="address"></textarea>
+
+            <br><br>
+
+            <label>Medical Information:</label>
+            <textarea name="medicalInformation"></textarea>
+
+            <br><br>
+
+            <button type="submit">Save Patient</button>
+
+        </form>
+        <br>
+
+            <form action="{{ url_for('home') }}" method="GET">
+
+                                    <button type="submit" class="reschedule">
+                                        back
+                                    </button>
+
+                                </form>
+
+    </section>
+
+    <hr>
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

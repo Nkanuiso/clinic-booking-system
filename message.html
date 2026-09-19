@@ -1,0 +1,778 @@
+```html
+{% extends "base.html" %}
+
+{% block title %}Send SMS Notification{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* =====================================
+       SMS PAGE
+    ====================================== */
+
+    .sms-page {
+        width: 94%;
+        max-width: 900px;
+        margin: 45px auto;
+    }
+
+
+    /* =====================================
+       HEADER
+    ====================================== */
+
+    .sms-header {
+        margin-bottom: 25px;
+    }
+
+    .sms-header h2 {
+        font-size: 32px;
+        color: white;
+        margin-bottom: 8px;
+    }
+
+    .sms-header h2 i {
+        color: #20c997;
+        margin-right: 8px;
+    }
+
+    .sms-header p {
+        color: #b8c9c1;
+        font-size: 14px;
+    }
+
+
+    /* =====================================
+       MAIN CARD
+    ====================================== */
+
+    .sms-card {
+        background: rgba(1, 35, 24, 0.90);
+
+        border: 1px solid rgba(255,255,255,0.12);
+
+        border-radius: 18px;
+
+        padding: 30px;
+
+        box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+
+        backdrop-filter: blur(12px);
+    }
+
+
+    /* =====================================
+       RECIPIENT
+    ====================================== */
+
+    .recipient-box {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        padding: 18px;
+
+        margin-bottom: 28px;
+
+        border-radius: 12px;
+
+        background: rgba(32,201,151,0.08);
+
+        border: 1px solid rgba(32,201,151,0.20);
+    }
+
+    .recipient-icon {
+        width: 48px;
+        height: 48px;
+
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: rgba(32,201,151,0.18);
+
+        color: #20c997;
+
+        font-size: 20px;
+    }
+
+    .recipient-info h3 {
+        font-size: 15px;
+        margin-bottom: 5px;
+    }
+
+    .recipient-info p {
+        color: #a9bbb3;
+        font-size: 12px;
+    }
+
+
+    /* =====================================
+       FORM
+    ====================================== */
+
+    .form-grid {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+    .form-group.full {
+        grid-column: 1 / -1;
+    }
+
+    label {
+        color: #d4dfda;
+
+        font-size: 13px;
+
+        font-weight: 600;
+    }
+
+    label span {
+        color: #20c997;
+    }
+
+
+    input,
+    textarea,
+    select {
+
+        width: 100%;
+
+        padding: 13px 14px;
+
+        border-radius: 9px;
+
+        border: 1px solid rgba(255,255,255,0.15);
+
+        background: rgba(255,255,255,0.06);
+
+        color: white;
+
+        outline: none;
+
+        font-size: 13px;
+
+        transition: 0.2s;
+    }
+
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+
+        border-color: #20c997;
+
+        background: rgba(255,255,255,0.08);
+
+        box-shadow:
+            0 0 0 3px rgba(32,201,151,0.10);
+    }
+
+
+    input::placeholder,
+    textarea::placeholder {
+        color: #849890;
+    }
+
+
+    select option {
+        background: #063522;
+        color: white;
+    }
+
+
+    /* =====================================
+       MESSAGE
+    ====================================== */
+
+    .message-wrapper {
+        position: relative;
+    }
+
+    textarea {
+        min-height: 150px;
+
+        resize: vertical;
+
+        line-height: 1.6;
+    }
+
+    .character-count {
+        position: absolute;
+
+        right: 12px;
+
+        bottom: 10px;
+
+        color: #879b92;
+
+        font-size: 10px;
+    }
+
+
+    /* =====================================
+       MESSAGE TEMPLATES
+    ====================================== */
+
+    .templates {
+        margin-top: 20px;
+    }
+
+    .templates-title {
+        font-size: 12px;
+
+        color: #aebdb7;
+
+        margin-bottom: 10px;
+    }
+
+    .template-buttons {
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 8px;
+    }
+
+    .template-btn {
+        border: 1px solid rgba(32,201,151,0.25);
+
+        background: rgba(32,201,151,0.08);
+
+        color: #9edcca;
+
+        padding: 8px 12px;
+
+        border-radius: 7px;
+
+        font-size: 11px;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .template-btn:hover {
+        background: rgba(32,201,151,0.17);
+
+        transform: translateY(-1px);
+    }
+
+
+    /* =====================================
+       INFORMATION BOX
+    ====================================== */
+
+    .info-box {
+
+        margin-top: 25px;
+
+        padding: 15px;
+
+        border-radius: 10px;
+
+        display: flex;
+
+        gap: 12px;
+
+        background: rgba(101,184,46,0.08);
+
+        border: 1px solid rgba(101,184,46,0.18);
+    }
+
+    .info-box i {
+        color: #8ddd4d;
+
+        font-size: 18px;
+    }
+
+    .info-box p {
+        color: #b8c8c1;
+
+        font-size: 11px;
+
+        line-height: 1.5;
+    }
+
+
+    /* =====================================
+       BUTTONS
+    ====================================== */
+
+    .form-actions {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        margin-top: 28px;
+
+        padding-top: 22px;
+
+        border-top: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .button-group {
+
+        display: flex;
+
+        gap: 10px;
+    }
+
+
+    .page-btn {
+
+        min-width: 140px;
+
+        height: 44px;
+
+        border: none;
+
+        border-radius: 8px;
+
+        color: white;
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 8px;
+
+        transition: 0.2s;
+    }
+
+
+    .page-btn:hover {
+
+        transform: translateY(-2px);
+
+        opacity: 0.9;
+    }
+
+
+    .send-btn {
+        background: #138f78;
+    }
+
+
+    .clear-btn {
+        background: #555f5a;
+    }
+
+
+    .back-btn {
+        background: #1769a8;
+    }
+
+
+    /* =====================================
+       DELIVERY STATUS
+    ====================================== */
+
+    .delivery-status {
+
+        margin-top: 20px;
+
+        padding: 12px;
+
+        border-radius: 8px;
+
+        text-align: center;
+
+        background: rgba(255,255,255,0.04);
+
+        color: #94a69e;
+
+        font-size: 11px;
+    }
+
+
+    /* =====================================
+       MOBILE
+    ====================================== */
+
+    @media (max-width: 700px) {
+
+        .sms-page {
+            width: 92%;
+            margin: 25px auto;
+        }
+
+        .sms-card {
+            padding: 20px;
+        }
+
+        .sms-header h2 {
+            font-size: 27px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full {
+            grid-column: auto;
+        }
+
+        .form-actions {
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .button-group {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .page-btn {
+            width: 100%;
+        }
+
+    }
+
+</style>
+
+
+<!-- =====================================
+     SMS PAGE
+====================================== -->
+
+<section class="sms-page">
+
+
+    <!-- PAGE HEADER -->
+
+    <div class="sms-header">
+
+        <h2>
+
+            <i class="fa-solid fa-comment-sms"></i>
+
+            Send SMS Notification
+
+        </h2>
+
+        <p>
+            Send appointment updates and important notifications to patients.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================
+         MAIN CARD
+    ====================================== -->
+
+    <div class="sms-card">
+
+
+        <!-- =================================
+             RECIPIENT
+        ================================== -->
+
+        <div class="recipient-box">
+
+            <div class="recipient-icon">
+
+                <i class="fa-solid fa-user"></i>
+
+            </div>
+
+
+            <div class="recipient-info">
+
+                <h3>
+                    Patient Notification
+                </h3>
+
+                <p>
+                    Send an SMS directly to the patient's registered mobile number.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================
+             FORM
+        ================================== -->
+
+        <form
+            action="{{ url_for('message') }}"
+            method="POST"
+        >
+
+
+            <div class="form-grid">
+
+
+                <!-- PATIENT NAME -->
+
+                <div class="form-group">
+
+                    <label>
+                        Patient Name <span>*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        name="patientName"
+                        placeholder="Enter patient name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PHONE NUMBER -->
+
+                <div class="form-group">
+
+                    <label>
+                        Patient Phone Number <span>*</span>
+                    </label>
+
+                    <input
+                        type="tel"
+                        name="phone"
+                        placeholder="e.g. 0712345678"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- MESSAGE -->
+
+                <div class="form-group full">
+
+                    <label>
+                        Message <span>*</span>
+                    </label>
+
+
+                    <div class="message-wrapper">
+
+                        <textarea
+                            id="message"
+                            name="message"
+                            maxlength="160"
+                            placeholder="Enter your SMS message..."
+                            required
+                        ></textarea>
+
+
+                        <div class="character-count">
+
+                            <span id="counter">0</span>/160
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MESSAGE TEMPLATES -->
+
+                    <div class="templates">
+
+                        <div class="templates-title">
+                            Quick message templates
+                        </div>
+
+
+                        <div class="template-buttons">
+
+
+                            <button
+                                type="button"
+                                class="template-btn"
+                                onclick="document.getElementById('message').value='Your clinic appointment has been confirmed. Please arrive 15 minutes before your scheduled time.'"
+                            >
+
+                                Appointment Confirmation
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="template-btn"
+                                onclick="document.getElementById('message').value='Your clinic appointment has been rescheduled. Please check your new appointment date and time.'"
+                            >
+
+                                Appointment Rescheduled
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="template-btn"
+                                onclick="document.getElementById('message').value='Reminder: You have an upcoming clinic appointment. Please arrive on time.'"
+                            >
+
+                                Appointment Reminder
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="template-btn"
+                                onclick="document.getElementById('message').value='Your clinic appointment has been cancelled. Please contact the clinic if you need assistance.'"
+                            >
+
+                                Appointment Cancelled
+
+                            </button>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================
+                 INFORMATION
+            ================================== -->
+
+            <div class="info-box">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                <p>
+
+                    SMS notifications can be used to inform patients
+                    about appointment confirmations, cancellations,
+                    reminders and rescheduled appointments.
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================
+                 BUTTONS
+            ================================== -->
+
+            <div class="form-actions">
+
+
+                <!-- BACK -->
+
+                <div class="button-group">
+
+                    </form> <form action="{{ url_for('home') }}" method="GET"> <button type="submit" class="profile"> back </button> </form>
+
+                </div>
+
+
+                <!-- SEND / CLEAR -->
+
+                <div class="button-group">
+
+
+                    <button
+                        type="reset"
+                        class="page-btn clear-btn"
+                    >
+
+                        <i class="fa-solid fa-rotate-left"></i>
+
+                        Clear
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="page-btn send-btn"
+                    >
+
+                        <i class="fa-solid fa-paper-plane"></i>
+
+                        Send SMS
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+        </form>
+
+
+        <!-- =================================
+             STATUS
+        ================================== -->
+
+        <div class="delivery-status">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            Patient information is handled securely.
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+<!-- =====================================
+     CHARACTER COUNTER
+====================================== -->
+
+<script>
+
+    const message =
+        document.getElementById("message");
+
+    const counter =
+        document.getElementById("counter");
+
+
+    message.addEventListener("input", function () {
+
+        counter.textContent =
+            message.value.length;
+
+    });
+
+</script>
+
+
+{% endblock %}
+```

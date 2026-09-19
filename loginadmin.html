@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}loginpage{% endblock %}
+
+{% block content %}
+
+{% block css%}
+
+   <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='loginadmin.css') }}"
+    > 
+
+{% endblock %}
+
+
+    <div class="login-container">
+
+        <div class="login-box">
+
+            <div class="logo">
+                <span>🔐</span>
+            </div>
+
+            <h1>Admin Login</h1>
+            <p class="subtitle">Sign in to access the administration panel</p>
+
+            <!-- Display Flask messages -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="message">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="post" action="/loginn">
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+
+                    <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        placeholder="Enter admin username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter admin password"
+                        required
+                    >
+                </div>
+
+                <div class="form-options">
+                    <label class="remember">
+                        <input type="checkbox" name="remember">
+                        Remember me
+                    </label>
+
+                    <a href="#">Forgot password?</a>
+                </div>
+
+                <button type="submit">
+                    Login
+                </button>
+
+            </form>
+
+            <div class="back-link">
+                <a href="{{ url_for('home') }}">← Back to Home</a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}

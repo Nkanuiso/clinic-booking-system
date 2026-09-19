@@ -1,0 +1,628 @@
+<link rel="stylesheet" href="{{url_for('static', filename = 'base.css')}}">
+
+{% block body %}
+<div class="admin-management">
+
+
+    <!-- ADMIN PROFILE -->
+
+    <section class="admin-profile-card">
+
+        <div class="admin-profile-info">
+
+            <div class="admin-avatar">
+                <i class="fa-solid fa-user"></i>
+            </div>
+
+            <div class="admin-details">
+
+                <h3>
+                    Kwanele Mkwanyana
+                </h3>
+
+                <p>
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Administrator
+                </p>
+
+                <span>
+                    admin@gmail.com
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="admin-profile-actions">
+
+            <a href="{{ url_for('Profile') }}"
+               class="profile-button">
+
+                <i class="fa-solid fa-user-gear"></i>
+
+                Admin Profile
+
+            </a>
+
+
+            <a href="{{ url_for('home') }}"
+               class="logout-button"
+               onclick="return confirm('Are you sure you want to logout?');">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+  
+
+</section>
+<div class="admin-management">
+
+    <!-- DAILY PATIENT CAPACITY -->
+
+
+    <section class="management-card">
+
+        <div class="card-header">
+
+            <div class="card-title">
+                <i class="fa-solid fa-calendar-day"></i>
+
+                <h3>
+                    Set Patient Daily Capacity
+                </h3>
+            </div>
+
+        </div>
+
+        <div class="booking-limit">
+
+            <div class="limit-grid">
+
+                <div class="limit-info">
+
+                    <h4>
+                        Today's Patient Capacity
+                    </h4>
+
+                    <div class="limit-number">
+                        0 / 50
+                    </div>
+
+                    <p>
+                        50 patients can be accepted per day.
+                    </p>
+
+                </div>
+
+
+                <div class="limit-form">
+
+                    <form action="#" method="POST">
+
+                        <label>
+                            Maximum patients per day
+                        </label>
+
+                        <input
+                            type="number"
+                            name="daily_limit"
+                            min="1"
+                            value="50"
+                            required
+                        >
+
+                        <button
+                            type="submit"
+                            class="limit-button">
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+
+                            Save Capacity
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MANAGE APPOINTMENTS -->
+
+    <section class="management-card">
+
+        <div class="card-header">
+
+            <div class="card-title">
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+                <h3>
+                    Manage Appointments
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Patient</th>
+                        <th>Phone Number</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Reason</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <!-- {% for appointment in appointments %} -->
+
+                    <tr>
+
+                        <td>
+
+                            <div class="patient">
+
+                                <div class="patient-icon">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+
+                                <!-- {{ appointment.patient_name }} -->
+                                  Kwanele
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            <!-- {{ appointment.phone }} --> 0673031789
+                        </td>
+
+                        <td>
+                            <!-- {{ appointment.date }} --> 09/08/2039
+                        </td>
+
+                        <td>
+                            <!-- {{ appointment.time }} --> 10:30
+                        </td>
+
+                        <td>
+                            <!-- {{ appointment.reason }} --> ngphethwe ikhanda
+                        </td>
+
+                        <td>
+
+                            <span class="status
+                            {% if appointment.status == 'Pending' %}
+                                pending
+                            {% elif appointment.status == 'Accepted' %}
+                                accepted
+                            {% elif appointment.status == 'Declined' %}
+                                declined
+                            {% endif %}">
+
+                                <!-- {{ appointment.status }} --> pending
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <div class="actions">
+
+                                <form action="#" method="POST">
+
+                                    <button
+                                        type="submit"
+                                        class="action-btn accept">
+
+                                        <i class="fa-solid fa-check"></i>
+                                        Accept
+
+                                    </button>
+
+                                </form>
+
+
+                                <form action="#" method="POST">
+
+                                    <button
+                                        type="submit"
+                                        class="action-btn decline">
+
+                                        <i class="fa-solid fa-xmark"></i>
+                                        Decline
+
+                                    </button>
+
+                                </form>
+
+
+                                <form action="{{ url_for('Profile2') }}"
+                                      method="GET">
+
+                                    <button
+                                        type="submit"
+                                        class="action-btn reschedule">
+
+                                        <i class="fa-solid fa-clock"></i>
+                                        Reschedule
+
+                                    </button>
+
+                                </form>
+
+
+                                <form action="{{ url_for('Record') }}"
+                                      method="GET">
+
+                                    <button
+                                        type="submit"
+                                        class="action-btn records">
+
+                                        <i class="fa-solid fa-folder-open"></i>
+                                        Records
+
+                                    </button>
+
+                                </form>
+
+
+                                <form action="{{ url_for('Profile') }}"
+                                      method="GET">
+
+                                    <button
+                                        type="submit"
+                                        class="action-btn profile">
+
+                                        <i class="fa-solid fa-user"></i>
+                                        Profile
+
+                                    </button>
+
+                                </form>
+
+
+                                <form action="{{ url_for('message') }}"
+                                      method="GET">
+
+                                    <button
+                                        type="submit"
+                                        class="action-btn sms">
+
+                                        <i class="fa-regular fa-comment-dots"></i>
+                                        Send SMS
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    <!-- {% endfor %} -->
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- MANAGE USERS -->
+
+    <section class="management-card">
+
+        <div class="card-header">
+
+            <div class="card-title">
+
+                <i class="fa-solid fa-users-gear"></i>
+
+                <h3>
+                    Manage User Accounts
+                </h3>
+
+            </div>
+
+
+            <a href="#"
+               class="add-user">
+
+                <i class="fa-solid fa-user-plus"></i>
+
+                Add User
+
+            </a>
+
+        </div>
+
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Registered</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for user in users %}
+
+                    <tr>
+
+                        <td>
+                            {{ user.id }}
+                        </td>
+
+                        <td>
+
+                            <div class="patient">
+
+                                <div class="patient-icon">
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+
+                                {{ user.name }}
+
+                            </div>
+
+                        </td>
+
+                        <td>
+                            {{ user.email }}
+                        </td>
+
+                        <td>
+                            {{ user.phone }}
+                        </td>
+
+                        <td>
+
+                            <span class="status accepted">
+                                {{ user.role }}
+                            </span>
+
+                        </td>
+
+                        <td>
+                            {{ user.registration_date }}
+                        </td>
+
+                        <td>
+
+                            <div class="user-actions">
+
+                                <form action="#" method="GET">
+
+                                    <button
+                                        type="submit"
+                                        class="user-btn view-user"
+                                        title="View User">
+
+                                        <i class="fa-solid fa-eye"></i>
+
+                                    </button>
+
+                                </form>
+
+
+                                <form action="#" method="GET">
+
+                                    <button
+                                        type="submit"
+                                        class="user-btn edit-user"
+                                        title="Edit User">
+
+                                        <i class="fa-solid fa-pen"></i>
+
+                                    </button>
+
+                                </form>
+
+
+                                <form action="#"
+                                      method="POST"
+                                      onsubmit="return confirm('Are you sure you want to delete this user?');">
+
+                                    <button
+                                        type="submit"
+                                        class="user-btn delete-user"
+                                        title="Delete User">
+
+                                        <i class="fa-solid fa-trash"></i>
+
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- GENERATE REPORT -->
+
+    <section class="management-card">
+
+        <div class="card-header">
+
+            <div class="card-title">
+
+                <i class="fa-solid fa-chart-column"></i>
+
+                <h3>
+                    Generate Reports
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <div class="report-content">
+
+            <div class="report-grid">
+
+
+                <!-- DAILY REPORT -->
+
+                <div class="report-option">
+
+                    <div class="report-icon">
+
+                        <i class="fa-solid fa-calendar-day"></i>
+
+                    </div>
+
+                    <h4>
+                        Daily Report
+                    </h4>
+
+                    <p>
+                        Generate a report showing today's
+                        appointments, patients, accepted bookings,
+                        declined bookings and remaining capacity.
+                    </p>
+
+                    <a href="#"
+                       class="report-button">
+
+                        <i class="fa-solid fa-file-pdf"></i>
+
+                        Generate Daily
+
+                    </a>
+
+                </div>
+
+
+                <!-- PATIENT REPORT -->
+
+                <div class="report-option">
+
+                    <div class="report-icon">
+
+                        <i class="fa-solid fa-users"></i>
+
+                    </div>
+
+                    <h4>
+                        Patient Report
+                    </h4>
+
+                    <p>
+                        Generate a report containing patient
+                        registration and appointment information.
+                    </p>
+
+                    <a href="#"
+                       class="report-button">
+
+                        <i class="fa-solid fa-file-lines"></i>
+
+                        Generate Patient
+
+                    </a>
+
+                </div>
+
+
+                <!-- APPOINTMENT REPORT -->
+
+                <div class="report-option">
+
+                    <div class="report-icon">
+
+                        <i class="fa-solid fa-calendar-check"></i>
+
+                    </div>
+
+                    <h4>
+                        Appointment Report
+                    </h4>
+
+                    <p>
+                        Generate a report showing appointment
+                        activity and appointment statuses.
+                    </p>
+
+                    <a href="#"
+                       class="report-button">
+
+                        <i class="fa-solid fa-file-export"></i>
+
+                        Generate Appointment
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
